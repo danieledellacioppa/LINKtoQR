@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,22 +46,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LINKtoQRTheme {
-        Greeting("Android")
-    }
-}
-
-@Composable
 fun QRCodeGeneratorApp() {
     var link by remember { mutableStateOf("") }
     var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -73,6 +58,12 @@ fun QRCodeGeneratorApp() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            text = "Enter URL:",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.align(Alignment.Start)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         BasicTextField(
             value = link,
             onValueChange = { link = it },
@@ -105,5 +96,13 @@ fun QRCodeGeneratorApp() {
                 modifier = Modifier.size(200.dp)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun QRCodeGeneratorAppPreview() {
+    LINKtoQRTheme {
+        QRCodeGeneratorApp()
     }
 }
