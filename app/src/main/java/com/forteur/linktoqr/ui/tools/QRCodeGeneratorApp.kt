@@ -37,6 +37,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.forteur.linktoqr.R
@@ -51,6 +54,10 @@ fun QRCodeGeneratorApp() {
     var link by remember { mutableStateOf("") }
     var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
+
+    val fontAwesome = FontFamily(
+        Font(R.font.awesome)
+    )
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -98,7 +105,7 @@ fun QRCodeGeneratorApp() {
                         color = Color.White,
                         fontSize = MaterialTheme.typography.headlineLarge.fontSize
                     )
-                        },
+                },
                 placeholder = { Text(text = "Enter URL") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,24 +121,28 @@ fun QRCodeGeneratorApp() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                if (link.isEmpty()) {
-                    Toast.makeText(context, "Please enter a link", Toast.LENGTH_SHORT).show()
-                } else {
-                    try {
-                        val barcodeEncoder = BarcodeEncoder()
-                        val bitmap = barcodeEncoder.encodeBitmap(link, BarcodeFormat.QR_CODE, 400, 400)
-                        qrCodeBitmap = bitmap
-                    } catch (e: WriterException) {
-                        e.printStackTrace()
+                    if (link.isEmpty()) {
+                        Toast.makeText(context, "Please enter a link", Toast.LENGTH_SHORT).show()
+                    } else {
+                        try {
+                            val barcodeEncoder = BarcodeEncoder()
+                            val bitmap = barcodeEncoder.encodeBitmap(link, BarcodeFormat.QR_CODE, 400, 400)
+                            qrCodeBitmap = bitmap
+                        } catch (e: WriterException) {
+                            e.printStackTrace()
+                        }
                     }
-                }
-            },
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Gray,
                 ),
-                elevation =  ButtonDefaults.buttonElevation(8.dp),
+                elevation = ButtonDefaults.buttonElevation(8.dp),
             ) {
-                Text(text = "Generate QR Code")
+                Text(
+                    text = "Get the QR Code ",
+                    fontFamily = fontAwesome,
+                    color = Color.White
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
             qrCodeBitmap?.let { bitmap ->
