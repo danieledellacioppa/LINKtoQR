@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -123,7 +124,11 @@ fun QRCodeGeneratorApp() {
                         e.printStackTrace()
                     }
                 }
-            }) {
+            },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Gray,
+                ),
+            ) {
                 Text(text = "Generate QR Code")
             }
             Spacer(modifier = Modifier.height(16.dp))
