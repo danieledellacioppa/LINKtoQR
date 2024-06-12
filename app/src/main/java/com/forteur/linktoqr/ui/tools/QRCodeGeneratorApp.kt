@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -90,18 +91,24 @@ fun QRCodeGeneratorApp() {
             OutlinedTextField(
                 value = link,
                 onValueChange = { link = it },
-                label = { Text(text = "URL to QRify") },
+                label = {
+                    Text(
+                        text = "URL to QRify",
+                        color = Color.White,
+                        fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                    )
+                        },
                 placeholder = { Text(text = "Enter URL") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.Blue,
+                    focusedBorderColor = Color.White,
                     unfocusedBorderColor = Color.Gray,
                     cursorColor = Color.Black,
                 ),
-                shape = MaterialTheme.shapes.medium
+                shape = MaterialTheme.shapes.extraLarge
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
