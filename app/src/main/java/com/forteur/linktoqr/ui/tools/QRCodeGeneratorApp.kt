@@ -112,7 +112,8 @@ fun QRCodeGeneratorApp() {
                 shape = MaterialTheme.shapes.extraLarge
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = {
+            Button(
+                onClick = {
                 if (link.isEmpty()) {
                     Toast.makeText(context, "Please enter a link", Toast.LENGTH_SHORT).show()
                 } else {
@@ -128,6 +129,7 @@ fun QRCodeGeneratorApp() {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Gray,
                 ),
+                elevation =  ButtonDefaults.buttonElevation(8.dp),
             ) {
                 Text(text = "Generate QR Code")
             }
