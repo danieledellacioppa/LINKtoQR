@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -95,60 +96,68 @@ fun QRCodeGeneratorApp() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            OutlinedTextField(
-                value = link,
-                onValueChange = { link = it },
-                label = {
-                    Text(
-                        text = "URL to QRify",
-                        color = Color.White,
-                        fontSize = MaterialTheme.typography.headlineLarge.fontSize
-                    )
-                },
-                placeholder = { Text(text = "Enter URL") },
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                singleLine = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.Gray,
-                    cursorColor = Color.Black,
-                ),
-                shape = MaterialTheme.shapes.extraLarge
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    if (link.isEmpty()) {
-                        Toast.makeText(context, "Please enter a link", Toast.LENGTH_SHORT).show()
-                    } else {
-                        try {
-                            val barcodeEncoder = BarcodeEncoder()
-                            val bitmap = barcodeEncoder.encodeBitmap(link, BarcodeFormat.QR_CODE, 400, 400)
-                            qrCodeBitmap = bitmap
-                        } catch (e: WriterException) {
-                            e.printStackTrace()
-                        }
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Gray,
-                ),
-                elevation = ButtonDefaults.buttonElevation(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(context)
-                        .data(R.raw.qrcode_solid) // Path to your SVG file in res/raw
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build()
+                OutlinedTextField(
+                    value = link,
+                    onValueChange = { link = it },
+                    label = {
+                        Text(
+                            text = "URL to QRify",
+                            color = Color.White,
+                            fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                        )
+                    },
+                    placeholder = { Text(text = "Enter URL") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.Gray,
+                        cursorColor = Color.Black,
+                    ),
+                    shape = MaterialTheme.shapes.extraLarge
                 )
-                Image(
-                    painter = painter,
-                    contentDescription = "Generate QR Code",
-                    modifier = Modifier.size(24.dp)
-                )
+                Button(
+                    onClick = {
+                        if (link.isEmpty()) {
+                            Toast.makeText(context, "Please enter a link", Toast.LENGTH_SHORT).show()
+                        } else {
+                            try {
+                                val barcodeEncoder = BarcodeEncoder()
+                                val bitmap = barcodeEncoder.encodeBitmap(link, BarcodeFormat.QR_CODE, 400, 400)
+                                qrCodeBitmap = bitmap
+                            } catch (e: WriterException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(8.dp),
+                    modifier = Modifier.size(56.dp) // Set a fixed size for the button
+                ) {
+                    val painter = rememberAsyncImagePainter(
+                        model = ImageRequest.Builder(context)
+                            .data(R.raw.qrcode_solid) // Path to your SVG file in res/raw
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build()
+                    )
+                    Image(
+                        painter = painter,
+                        contentDescription = "Generate QR Code",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
+
             Spacer(modifier = Modifier.height(16.dp))
             qrCodeBitmap?.let { bitmap ->
                 Card(
