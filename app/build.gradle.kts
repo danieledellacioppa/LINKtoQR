@@ -69,6 +69,9 @@ dependencies {
 
     implementation("com.google.zxing:core:3.3.3")
     implementation("com.journeyapps:zxing-android-embedded:3.6.0")
+    implementation("com.google.accompanist:accompanist-coil:0.13.0")
+    implementation("io.coil-kt:coil-compose:2.1.0")
+    implementation("io.coil-kt:coil-svg:2.1.0")
 
 
 }

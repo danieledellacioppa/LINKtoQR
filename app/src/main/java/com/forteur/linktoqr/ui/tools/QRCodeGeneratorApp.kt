@@ -42,6 +42,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.forteur.linktoqr.R
 import com.forteur.linktoqr.ui.theme.LINKtoQRTheme
 import com.google.zxing.BarcodeFormat
@@ -54,10 +57,6 @@ fun QRCodeGeneratorApp() {
     var link by remember { mutableStateOf("") }
     var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
-
-    val fontAwesome = FontFamily(
-        Font(R.font.awesome)
-    )
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -138,10 +137,16 @@ fun QRCodeGeneratorApp() {
                 ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
             ) {
-                Text(
-                    text = "Get the QR Code ",
-                    fontFamily = fontAwesome,
-                    color = Color.White
+                val painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(context)
+                        .data(R.raw.qrcode_solid) // Path to your SVG file in res/raw
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build()
+                )
+                Image(
+                    painter = painter,
+                    contentDescription = "Generate QR Code",
+                    modifier = Modifier.size(24.dp)
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
