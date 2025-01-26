@@ -107,7 +107,7 @@ fun QRCodeGeneratorApp() {
                     onValueChange = { link = it },
                     label = {
                         Text(
-                            text = "URL to QRify",
+                            text = "Your URL to QRify",
                             color = Color.White,
                             fontSize = MaterialTheme.typography.headlineLarge.fontSize
                         )
